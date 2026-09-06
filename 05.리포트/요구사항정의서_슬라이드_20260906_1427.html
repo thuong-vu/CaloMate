@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaloMate 요구사항 정의서 슬라이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-light: #34d399;
+      --secondary: #6366f1;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --bg-glass-dark: rgba(15, 23, 42, 0.82);
+      --bg-glass-card: rgba(30, 41, 59, 0.75);
+      --border-glass: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: transparent;
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Container */
+    #deck-viewport {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 1280px;
+      height: 720px;
+      max-width: 96vw;
+      max-height: 94vh;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-glass-dark);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 44px 56px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.985) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      padding: 4px 12px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .slide-title {
+      font-size: 30px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .slide-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-glass);
+    }
+
+    /* Content Area */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .footer-tags {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-tag {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; height: 100%; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; height: 100%; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; height: 100%; align-items: stretch; }
+
+    /* Glass Cards */
+    .glass-card {
+      background: var(--bg-glass-card);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(16, 185, 129, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-highlight {
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(30, 41, 59, 0.8));
+    }
+
+    /* Typography helpers */
+    .stat-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--primary-light);
+      line-height: 1.1;
+      margin: 6px 0 4px;
+    }
+
+    .card-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Table Styles */
+    .table-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border-glass);
+    }
+
+    table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 13.5px;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-glass);
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr.highlight-row { background: rgba(16, 185, 129, 0.08); font-weight: 600; }
+    tr.highlight-row td { color: #ffffff; border-top: 1px solid rgba(16, 185, 129, 0.3); border-bottom: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .tag-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-must { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-should { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
+    .badge-could { background: rgba(245, 158, 11, 0.2); color: #fde047; border: 1px solid rgba(245, 158, 11, 0.4); }
+    .badge-wont { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    /* Flow Steps */
+    .flow-step {
+      background: rgba(30, 41, 59, 0.85);
+      border: 1px solid var(--border-glass);
+      border-radius: 12px;
+      padding: 16px;
+      position: relative;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-light);
+      font-size: 20px;
+    }
+
+    /* Controls Bar */
+    #nav-controls {
+      position: fixed;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      padding: 8px 18px;
+      border-radius: 100px;
+      z-index: 1000;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    #slide-indicator {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      min-width: 60px;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    @media print {
+      body { overflow: visible !important; height: auto !important; background: transparent !important; }
+      #nav-controls { display: none !important; }
+      #deck-viewport { display: block !important; padding: 0 !important; width: 100% !important; height: auto !important; }
+      .slide {
+        display: flex !important;
+        page-break-after: always !important;
+        width: 100% !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: rgba(15, 23, 42, 0.95) !important;
+        padding: 40px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="deck-viewport">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide active" id="slide-1">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Software Requirements Specification</span>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body" style="justify-content: center; align-items: flex-start; gap: 22px;">
+        <div style="font-size: 54px; font-weight: 900; line-height: 1.15; letter-spacing: -0.03em;">
+          CaloMate MVP<br>
+          <span style="background: linear-gradient(135deg, #34d399, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            요구사항 정의서 (SRS)
+          </span>
+        </div>
+        <p style="font-size: 19px; color: var(--text-muted); max-width: 820px; line-height: 1.6;">
+          기능 요구사항 15건(Must 12건, Should 3건) 및 비기능 요구사항 8건을 정의하고,<br>
+          한 끼 15초 기록 완결과 그램 미노출 사람 언어 UX의 정밀한 인수 기준을 수립한 기획 문서
+        </p>
+        <div style="display: flex; gap: 16px; margin-top: 14px;">
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Functional Scope</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">15개 기능 요건 (Must 80%)</div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Performance Target</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">비전 3초 이내 / 기록 15초 완결</div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Accuracy Goal</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">상위 1개 정답률 80% 이상</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-tags">
+          <span class="footer-tag">Project: CaloMate</span>
+          <span class="footer-tag">Document Chain #5: 요구사항정의서.md</span>
+        </div>
+        <div>2026.09.06 | v1.0 | PRD & 서비스기획서 기반</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: MOSCOW PRIORITIZATION FRAMEWORK -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Scope & Prioritization</span>
+          <h2 class="slide-title">요구사항 우선순위 매트릭스 (MoSCoW)</h2>
+          <p class="slide-subtitle">착수보고서 및 서비스기획서의 MVP In Scope 원칙에 맞춘 자원 집중 배분</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4">
+          <div class="glass-card card-highlight">
+            <div>
+              <span class="tag-badge badge-must" style="font-size: 13px; padding: 4px 10px;">MUST (필수)</span>
+              <div class="stat-number" style="color: var(--primary-light);">12개 <span style="font-size: 18px; color: var(--text-muted); font-weight: 500;">(80%)</span></div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">MVP 핵심 파이프라인</div>
+              <p class="card-desc">
+                • 카메라 촬영 및 비전 인식 (REQ-001, 002)<br>
+                • 사람 언어 배식량 슬라이더 (REQ-003, 004)<br>
+                • 15초 완결 플로우 (REQ-005)<br>
+                • 증량/감량/유지 대시보드 (REQ-007~009)<br>
+                • 히스토리 조회 & PWA 배포 (REQ-011, 013)
+              </p>
+            </div>
+            <div style="font-size: 11px; color: var(--primary-light); font-weight: 700; margin-top: 8px;">
+              ✓ 릴리즈 차단 기준 (Launch Blocker)
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div>
+              <span class="tag-badge badge-should" style="font-size: 13px; padding: 4px 10px;">SHOULD (중요)</span>
+              <div class="stat-number" style="color: #a5b4fc;">3개 <span style="font-size: 18px; color: var(--text-muted); font-weight: 500;">(20%)</span></div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">사용성 및 리텐션 보강</div>
+              <p class="card-desc">
+                • 오인식 시 후보군 대체 폴백 (REQ-006)<br>
+                • 당일 섭취 기반 맞춤 운동 추천 (REQ-010)<br>
+                • 서비스 워커 오프라인 캐싱 (REQ-014)
+              </p>
+            </div>
+            <div style="font-size: 11px; color: #a5b4fc; font-weight: 700; margin-top: 8px;">
+              ✓ MVP 안정화 단계 우선 탑재
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div>
+              <span class="tag-badge badge-could" style="font-size: 13px; padding: 4px 10px;">COULD (선택)</span>
+              <div class="stat-number" style="color: #fde047;">2개 <span style="font-size: 18px; color: var(--text-muted); font-weight: 500;">(차기)</span></div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">향후 확장 후보</div>
+              <p class="card-desc">
+                • 주간 식단 리포트 SNS 카드 공유<br>
+                • 간헐적 단식 타이머 연동<br>
+                • 식사 알림 푸시(n8n 연동)
+              </p>
+            </div>
+            <div style="font-size: 11px; color: #fde047; font-weight: 700; margin-top: 8px;">
+              ✓ 사용자 피드백 수렴 후 구현
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div>
+              <span class="tag-badge badge-wont" style="font-size: 13px; padding: 4px 10px;">WON'T (제외)</span>
+              <div class="stat-number" style="color: #f87171;">5개 <span style="font-size: 18px; color: var(--text-muted); font-weight: 500;">(Out)</span></div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">명시적 제외 항목</div>
+              <p class="card-desc">
+                • 네이티브 앱스토어 배포 (PWA로 대체)<br>
+                • 스마트워치/웨어러블 하드웨어 연동<br>
+                • 소셜 랭킹 및 친구 추가<br>
+                • 유료 구독 및 결제 모듈
+              </p>
+            </div>
+            <div style="font-size: 11px; color: #f87171; font-weight: 700; margin-top: 8px;">
+              ✓ 착수보고서 Out of Scope 준수
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 3. 우선순위 매트릭스 & 서비스기획서 In/Out Scope</div>
+        <div>Page 02 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: 15-SECOND LOGGING PIPELINE -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Core Pipeline</span>
+          <h2 class="slide-title">15초 식사 기록 완결 파이프라인 (REQ-001 ~ REQ-005)</h2>
+          <p class="slide-subtitle">수기 검색과 무게 측정 단계를 완전히 제거한 3단계 초압축 인터랙션</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <div style="display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr; align-items: center;">
+            <div class="flow-step" style="border-top: 4px solid #38bdf8;">
+              <span class="tag-badge badge-must">REQ-001 (1초)</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin: 8px 0;">카메라 촬영 / 업로드</div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                웹 카메라 뷰파인더 즉시 구동. 촬영 즉시 클라이언트 이미지 자동 리사이징 및 압축 후 1초 내 업로드.
+              </p>
+              <div style="margin-top: 10px; font-size: 12px; color: #38bdf8;">✓ 모바일 PWA 네이티브 감각 셔터</div>
+            </div>
+
+            <div class="flow-arrow">➔</div>
+
+            <div class="flow-step" style="border-top: 4px solid var(--primary);">
+              <span class="tag-badge badge-must">REQ-002 (3초)</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin: 8px 0;">LLM 비전 자동 인식</div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                다중 객체 검출(Multi-object)로 밥, 국, 반찬 분할 식별. 칼로리 및 탄단지 매크로 자동 추정 (정답률 80%+).
+              </p>
+              <div style="margin-top: 10px; font-size: 12px; color: var(--primary-light);">✓ 비전 응답 지연 3초 이내 보장</div>
+            </div>
+
+            <div class="flow-arrow">➔</div>
+
+            <div class="flow-step" style="border-top: 4px solid #f59e0b;">
+              <span class="tag-badge badge-must">REQ-003~005 (10초)</span>
+              <div style="font-size: 18px; font-weight: 800; color: #fff; margin: 8px 0;">사람 언어 보정 & 저장</div>
+              <p style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">
+                "밥 반 공기", "찌개 1그릇" 슬라이더 원터치 조절 후 즉시 [기록 완료] 탭. 총 15초 내 DB 영구 저장.
+              </p>
+              <div style="margin-top: 10px; font-size: 12px; color: #f59e0b;">✓ 저울 없는 1회 터치 보정 완료</div>
+            </div>
+          </div>
+
+          <!-- Acceptance Criteria Box -->
+          <div class="glass-card card-highlight" style="padding: 18px;">
+            <div style="font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 6px;">
+              📋 핵심 인수 기준 (Acceptance Criteria): REQ-005
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; font-size: 13px; color: var(--text-muted);">
+              <div>• <strong>성능 기준:</strong> 정상 네트워크 환경에서 셔터 클릭부터 저장 완료 팝업까지 15.0초 초과 시 테스트 실패</div>
+              <div>• <strong>다중 객체 검출:</strong> 한식 상차림(밥+국+반찬)에서 주 메뉴 2종 이상 자동 분할 카드 표시 필수</div>
+              <div>• <strong>조작 단순성:</strong> 텍스트 입력창 없이 슬라이더/버튼 터치만으로 100% 입력 완료 가능</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 REQ-001 ~ REQ-005 & 서비스기획서 F-1, F-2</div>
+        <div>Page 03 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: NATURAL LANGUAGE PORTIONS -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">UX Principle</span>
+          <h2 class="slide-title">사람 언어 배식량 UI & 그램(g) 미노출 원칙 (REQ-003, REQ-004)</h2>
+          <p class="slide-subtitle">사용자 인지 모델과 백엔드 정밀 데이터베이스 간의 완벽한 양방향 매핑</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <!-- Left: User-Facing UI (Human Language) -->
+          <div class="glass-card card-highlight" style="padding: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="card-title" style="color: var(--primary-light);">📱 프론트엔드 UI (사람 언어)</span>
+              <span class="tag-badge badge-must">REQ-004 그램 비노출</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+              <div style="background: rgba(15,23,42,0.7); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: #fff;">
+                  <span>🍚 흑미밥</span>
+                  <span style="color: var(--primary-light);">한 공기</span>
+                </div>
+                <div style="margin: 10px 0 4px; display: flex; gap: 8px;">
+                  <button style="flex:1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: #94a3b8; border-radius: 6px; font-size: 12px;">반 공기</button>
+                  <button style="flex:1; padding: 6px; background: var(--primary); border: none; color: #fff; font-weight: 700; border-radius: 6px; font-size: 12px;">한 공기 (기본)</button>
+                  <button style="flex:1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: #94a3b8; border-radius: 6px; font-size: 12px;">고봉밥</button>
+                </div>
+              </div>
+
+              <div style="background: rgba(15,23,42,0.7); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 700; color: #fff;">
+                  <span>🥘 차돌된장찌개</span>
+                  <span style="color: var(--primary-light);">1 뚝배기 (1그릇)</span>
+                </div>
+                <div style="margin: 10px 0 4px; display: flex; gap: 8px;">
+                  <button style="flex:1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: #94a3b8; border-radius: 6px; font-size: 12px;">반 그릇</button>
+                  <button style="flex:1; padding: 6px; background: var(--primary); border: none; color: #fff; font-weight: 700; border-radius: 6px; font-size: 12px;">1그릇 (기본)</button>
+                  <button style="flex:1; padding: 6px; background: rgba(255,255,255,0.05); border: 1px solid var(--border-glass); color: #94a3b8; border-radius: 6px; font-size: 12px;">곱빼기</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="font-size: 12px; color: var(--text-muted); margin-top: 14px;">
+              🚫 <strong>원칙:</strong> 사용자가 숫자로 210g, 350g을 계산할 필요가 없도록 그램 표시를 화면에서 철저히 은닉.
+            </div>
+          </div>
+
+          <!-- Right: Backend DB Mapping Engine -->
+          <div class="glass-card" style="padding: 24px;">
+            <div class="card-title" style="color: #a5b4fc;">⚙️ 백엔드 표준 영양 DB 연계</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 8px;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">식약처 외식 영양성분 DB 매핑</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  1공기 = 210g (약 310 kcal, 탄 68g, 단 6g, 지 1g)<br>
+                  1뚝배기 = 400g (약 220 kcal, 탄 12g, 단 14g, 지 12g)
+                </p>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">비례 계산 엔진 (Ratio Calculator)</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  슬라이더 값(0.5x, 1.0x, 1.5x) 변경 시 내부 정밀 칼로리/매크로 즉시 연동 계산 및 PostgreSQL 저장.
+                </p>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">인수 기준 검증 요건</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  UI 상에는 '1공기'로 표시되더라도 DB 컬럼에는 정밀 그램수 및 환산 매크로 수치가 정확히 저장되어야 함.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 국민건강영양조사 한식 인지도 통계 & 요구사항정의서 REQ-003, REQ-004</div>
+        <div>Page 04 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: BULKING & GOAL MANAGEMENT -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Goal Management</span>
+          <h2 class="slide-title">증량(벌킹) 1급 전용 대시보드 & 목표 밸런스 (REQ-007 ~ REQ-009)</h2>
+          <p class="slide-subtitle">기존 감량 편향 앱의 적색 경고 관성을 탈피하고 증량을 1급 기능으로 설계</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <!-- Left: Bulking Mode UI Card -->
+          <div class="glass-card card-highlight" style="padding: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="card-title" style="color: #34d399;">💪 증량(벌킹) 전용 모드 (REQ-008)</span>
+              <span class="tag-badge badge-must">MUST</span>
+            </div>
+            
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 12px; padding: 16px; margin: 6px 0;">
+              <div style="font-size: 13px; color: #6ee7b7; font-weight: 700;">오늘의 칼로리 잉여 (Surplus)</div>
+              <div style="font-size: 32px; font-weight: 900; color: #ffffff; margin: 4px 0;">+380 kcal 잉여 달성! 🎉</div>
+              <p style="font-size: 12px; color: #a7f3d0;">"목표치 대비 훌륭하게 잉여 칼로리를 섭취 중입니다. 근성장에 최적화되었습니다."</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 10px;">
+              <div>• <strong>컬러 규칙:</strong> 초과 섭취 시 절대 빨간색(경고) 사용 금지 $\rightarrow$ 에메랄드/블루 계열 적용</div>
+              <div>• <strong>단백질 트래킹:</strong> 체중당 1.6g~2.0g 목표 달성도 프로그레스 바 최상단 배치</div>
+              <div>• <strong>동기부여:</strong> "벌킹 성공!", "근육 합성 골든타임" 등 긍정 축하 메시지 트리거</div>
+            </div>
+          </div>
+
+          <!-- Right: Weight Loss / Maintenance Mode UI Card -->
+          <div class="glass-card" style="padding: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+              <span class="card-title" style="color: #38bdf8;">⚖️ 감량 및 유지 밸런스 게이지 (REQ-009)</span>
+              <span class="tag-badge badge-must">MUST</span>
+            </div>
+
+            <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 12px; padding: 16px; margin: 6px 0;">
+              <div style="font-size: 13px; color: #7dd3fc; font-weight: 700;">오늘의 칼로리 밸런스 잔여량</div>
+              <div style="font-size: 32px; font-weight: 900; color: #ffffff; margin: 4px 0;">잔여 540 kcal</div>
+              <p style="font-size: 12px; color: #bae6fd;">"저녁 식사로 가벼운 단백질 위주 식단을 권장합니다."</p>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; font-size: 13px; color: var(--text-muted); margin-top: 10px;">
+              <div>• <strong>원형 게이지:</strong> 기초대사량(BMR) + 활동 소모량 대비 실시간 섭취량 시각화</div>
+              <div>• <strong>잔여 칼로리 연동:</strong> 초과 시 즉시 REQ-010 맞춤 유산소 운동(분 단위) 자동 매핑</div>
+              <div>• <strong>감량 페이스:</strong> 주간 -0.5kg 안전 감량 가이드라인에 따른 일일 칼로리 디피싯 유지</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 REQ-007, REQ-008, REQ-009 & Welling 벤치마크 분석</div>
+        <div>Page 05 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: EXERCISE RECOMMENDATION & HISTORY -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Actionable Coaching</span>
+          <h2 class="slide-title">맞춤 운동 추천 & 일/주간 대시보드 (REQ-010, REQ-011)</h2>
+          <p class="slide-subtitle">단순 숫자 조회를 넘어 즉각적인 행동 피드백과 성취감을 제공하는 기능</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <!-- Left: Exercise Recommendation Card -->
+          <div class="glass-card" style="padding: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="card-title" style="color: #f59e0b;">🏃‍♂️ 잔여 밸런스 기반 맞춤 운동 추천 (REQ-010)</span>
+              <span class="tag-badge badge-should">SHOULD</span>
+            </div>
+            
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 700; color: #fff;">감량 모드 (300 kcal 초과 시)</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">빠른 걷기 40분 또는 가벼운 러닝 25분 제안</div>
+                </div>
+                <span class="tag-badge" style="background: rgba(239, 68, 68, 0.2); color: #f87171;">유산소 우선</span>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 700; color: #fff;">증량 모드 (단백질 충족 시)</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">하체 근력 운동 30분 또는 푸시업 5세트 제안</div>
+                </div>
+                <span class="tag-badge badge-win">근력 우선</span>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div style="font-size: 14px; font-weight: 700; color: #fff;">유지/헬시 모드 (골든 밸런스)</div>
+                  <div style="font-size: 12px; color: var(--text-muted);">스트레칭 15분 및 식후 15분 산책 제안</div>
+                </div>
+                <span class="tag-badge badge-should">회복 우선</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: History & Trend Dashboard Card -->
+          <div class="glass-card" style="padding: 22px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+              <span class="card-title" style="color: #a5b4fc;">📊 일/주간 기록 히스토리 (REQ-011)</span>
+              <span class="tag-badge badge-must">MUST</span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">캘린더 뷰 & 식사 썸네일 리스트</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  아침/점심/저녁/간식별 실제 음식 사진 썸네일과 칼로리 요약 카드를 타임라인 형태로 렌더링.
+                </p>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">주간 매크로 & 체중 추이 차트</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  최근 7일간의 칼로리 섭취 추이 및 체중 변화 선 그래프(Line Chart) 제공.
+                </p>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 10px; padding: 12px;">
+                <div style="font-size: 13px; font-weight: 700; color: #fff;">데이터 로딩 성능 요건</div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">
+                  캘린더 날짜 전환 시 300ms 이내에 해당일 식사 기록 즉각 렌더링.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 REQ-010, REQ-011 & 서비스기획서 F-4, F-5</div>
+        <div>Page 06 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: NON-FUNCTIONAL REQUIREMENTS -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Non-Functional Quality</span>
+          <h2 class="slide-title">비기능 요구사항: 성능, 정확도, 보안 기준 (NFR-001 ~ NFR-008)</h2>
+          <p class="slide-subtitle">출시 전후 엄격한 검증을 통과해야 하는 8대 엔지니어링 벤치마크</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4">
+          <div class="glass-card card-highlight">
+            <div style="font-size: 12px; font-weight: 700; color: var(--primary-light);">NFR-001 & 002</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin: 4px 0;">성능 및 속도 기준</div>
+            <div class="stat-number" style="font-size: 32px;">3s / 15s</div>
+            <p class="card-desc">
+              • AI 비전 분석 결과 반환: <strong>3초 이내</strong> (95% 백분위수)<br>
+              • 한 끼 전체 기록 소요 시간: <strong>15초 이내</strong> 완결
+            </p>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 12px; font-weight: 700; color: #60a5fa;">NFR-003</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin: 4px 0;">인식 품질 정확도</div>
+            <div class="stat-number" style="font-size: 32px; color: #60a5fa;">80%+</div>
+            <p class="card-desc">
+              • 한식 외식/가정식 기준 상위 1개 후보 정답률 80% 이상<br>
+              • 100종 표준 한식 데이터셋 검증
+            </p>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 12px; font-weight: 700; color: #f59e0b;">NFR-004 & 005</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin: 4px 0;">보안 및 개인정보</div>
+            <div class="stat-number" style="font-size: 32px; color: #f59e0b;">AES-256</div>
+            <p class="card-desc">
+              • 사진 전송 전 EXIF 위치/얼굴 100% 자동 마스킹<br>
+              • TLS 1.3 암호화 및 건강 데이터 안전 보관
+            </p>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 12px; font-weight: 700; color: #a855f7;">NFR-007 & 008</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin: 4px 0;">확장성 및 가용성</div>
+            <div class="stat-number" style="font-size: 32px; color: #a855f7;">99.9%</div>
+            <p class="card-desc">
+              • LLM 비전 API(OpenAI/Gemini) 전략 패턴 추상화<br>
+              • Vercel 서버리스 무중단 배포 및 가동률 99.9%
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 2. 비기능 요구사항 (NFR) & PRD 비기능 요건</div>
+        <div>Page 07 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: USER STORIES -->
+    <div class="slide" id="slide-8">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">User Stories</span>
+          <h2 class="slide-title">핵심 사용자 스토리 (US-001 ~ US-006)</h2>
+          <p class="slide-subtitle">사용자가 체감하는 실질적 가치와 엔지니어링 요구사항의 연계</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="glass-card">
+            <span class="tag-badge badge-must">US-001 & US-002</span>
+            <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">점심 식사 15초 기록 (P1)</div>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+              <strong>As a</strong> 바쁜 다이어트 직장인은,<br>
+              <strong>I want</strong> 사진을 찍으면 3초 안에 음식명과 칼로리를 채워주길 원한다.<br>
+              <strong>So that</strong> 동료 눈치 없이 15초 안에 기록을 마치기 위해.<br>
+              <em style="color: var(--primary-light); font-size: 12px;">연결: REQ-001, 002, 005</em>
+            </p>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <span class="tag-badge badge-must">US-003</span>
+            <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">벌킹 잉여 칼로리 축하 (P2)</div>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+              <strong>As a</strong> 증량 중인 웨이트 직장인은,<br>
+              <strong>I want</strong> 칼로리 초과를 경고가 아닌 긍정적 잉여(Surplus)로 보길 원한다.<br>
+              <strong>So that</strong> 죄책감 없이 근육을 늘리고 단백질 섭취를 동기부여 받기 위해.<br>
+              <em style="color: var(--primary-light); font-size: 12px;">연결: REQ-007, 008</em>
+            </p>
+          </div>
+
+          <div class="glass-card">
+            <span class="tag-badge badge-should">US-005 & US-006</span>
+            <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 8px 0;">운동 추천 & PWA 실행</div>
+            <p style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">
+              <strong>As a</strong> 모바일 웹 사용자는,<br>
+              <strong>I want</strong> 앱 설치 없이 홈 화면 추가로 켜고, 먹은 만큼 맞춤 운동을 추천받길 원한다.<br>
+              <strong>So that</strong> 번거로운 절차 없이 생활 속에서 칼로리를 통제하기 위해.<br>
+              <em style="color: #a5b4fc; font-size: 12px;">연결: REQ-010, 013, 014</em>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 요구사항정의서 4. 사용자 스토리 (User Stories)</div>
+        <div>Page 08 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: PLATFORM, PRIVACY & LEGAL -->
+    <div class="slide" id="slide-9">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Compliance & Privacy</span>
+          <h2 class="slide-title">플랫폼 아키텍처 및 법적/개인정보 보호 요건 (REQ-012 ~ REQ-015)</h2>
+          <p class="slide-subtitle">PWA 기반 배포, 의료 면책 조항, 망각될 권리의 완벽한 이행</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="glass-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">📲</div>
+            <div class="card-title">PWA & 오프라인 캐싱</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              스토어 설치 없는 웹 접근성(A2HS) 및 네트워크 단절 대응
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
+              • <strong>REQ-013:</strong> Standalone 모드 지원, 스토어 수수료 0% 회피<br>
+              • <strong>REQ-014:</strong> 서비스 워커 캐싱으로 최근 7일 식사 히스토리 오프라인 조회
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">⚖️</div>
+            <div class="card-title">의료 면책 & 알레르기 고지</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              헬스케어 AI 규제 가이드라인 준수 및 사용자 안전 확보
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
+              • <strong>REQ-012:</strong> AI 분석 수치는 추정치이며 의학적 조언이 아님을 상시 명시<br>
+              • 보이지 않는 알레르기 유발 항원 미감지 경고 필수 노출
+            </div>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <div style="font-size: 28px; margin-bottom: 8px;">🛡️</div>
+            <div class="card-title">망각될 권리 & 개인정보</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              개인정보보호위원회 가이드라인에 따른 철저한 비식별화
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">
+              • <strong>REQ-015:</strong> 이미지 전송 전 얼굴/위치 EXIF 완전 마스킹<br>
+              • 회원 탈퇴 시 모든 사진 및 건강 수치 복구 불가능 영구 파기
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: chinh-sach-calomate.md & 개인정보보호위원회 가이드라인 준수</div>
+        <div>Page 09 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: TRACEABILITY & NEXT STEPS -->
+    <div class="slide" id="slide-10">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Traceability & Roadmap</span>
+          <h2 class="slide-title">요구사항 추적성 매트릭스 & 차기 산출물 연계</h2>
+          <p class="slide-subtitle">요구사항정의서(#5) 승인에 따른 기능명세서(#6) 및 개발 트랙 전개</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div style="display: flex; flex-direction: column; gap: 18px;">
+          <!-- Traceability Chain -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+            <div class="glass-card" style="border-top: 4px solid var(--primary); padding: 16px;">
+              <div style="font-size: 12px; color: var(--primary-light); font-weight: 700;">STEP 01 (완료)</div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0;">#4 서비스기획서</div>
+              <p style="font-size: 12px; color: var(--text-muted);">F-1~F-6 MVP 기능 및 가치제안 확정</p>
+            </div>
+
+            <div class="flow-arrow" style="display:none;"></div>
+
+            <div class="glass-card card-highlight" style="border-top: 4px solid var(--primary-light); padding: 16px;">
+              <div style="font-size: 12px; color: var(--primary-light); font-weight: 700;">STEP 02 (CURRENT)</div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0;">#5 요구사항정의서</div>
+              <p style="font-size: 12px; color: var(--text-muted);">REQ 15건 / NFR 8건 / MoSCoW 수립 완료</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #6366f1; padding: 16px;">
+              <div style="font-size: 12px; color: #818cf8; font-weight: 700;">STEP 03 (NEXT)</div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0;">#6 기능명세서</div>
+              <p style="font-size: 12px; color: var(--text-muted);">화면별 컴포넌트 상세 로직 및 예외 케이스 정의</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #f59e0b; padding: 16px;">
+              <div style="font-size: 12px; color: #fde047; font-weight: 700;">STEP 04 (PARALLEL)</div>
+              <div style="font-size: 15px; font-weight: 700; color: #fff; margin: 4px 0;">#7 API / #8 정보구조</div>
+              <p style="font-size: 12px; color: var(--text-muted);">REST API 스펙 정의 및 IA 화면 구조도 설계</p>
+            </div>
+          </div>
+
+          <!-- Summary Banner -->
+          <div class="glass-card" style="padding: 20px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(16, 185, 129, 0.15)); border: 1px solid rgba(16, 185, 129, 0.3);">
+            <div style="font-size: 17px; font-weight: 800; color: #ffffff; margin-bottom: 4px;">
+              🎯 요구사항 정의서 결론: "모든 기능은 15초 기록 완결성을 향해 정렬된다"
+            </div>
+            <p style="font-size: 13.5px; color: #cbd5e1; line-height: 1.6;">
+              본 요구사항정의서는 사용자의 기록 이탈을 유발하는 그램(g) 환산과 수기 검색을 원천 제거하고, LLM 비전 자동화와 사람 언어 슬라이더로 대체하는 구체적 엔지니어링 명세를 확립했습니다. 정의된 인수 기준은 #15 테스트시나리오 및 QA 검수 기준으로 100% 직결됩니다.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>CaloMate Project | AP-Framework V0.43 Document Chain</div>
+        <div>Page 10 / 10 (End of Deck)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive Controls Bar -->
+  <div id="nav-controls">
+    <button class="nav-btn" id="prev-btn" title="이전 슬라이드 (←)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div id="slide-indicator">1 / 10</div>
+    <button class="nav-btn" id="next-btn" title="다음 슬라이드 (→ / Space)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 4px;"></div>
+    <button class="nav-btn" id="print-btn" title="PDF 인쇄 / 내보내기 (Ctrl+P)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    const indicator = document.getElementById('slide-indicator');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const printBtn = document.getElementById('print-btn');
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      currentSlide = index;
+      indicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+    printBtn.addEventListener('click', () => window.print());
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        showSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        showSlide(totalSlides - 1);
+      } else if (e.key === 'p' && (e.metaKey || e.ctrlKey)) {
+        window.print();
+      }
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>

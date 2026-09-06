@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CaloMate 마켓 리서치 슬라이드</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-light: #34d399;
+      --secondary: #6366f1;
+      --accent: #f59e0b;
+      --danger: #ef4444;
+      --bg-glass-dark: rgba(15, 23, 42, 0.82);
+      --bg-glass-card: rgba(30, 41, 59, 0.75);
+      --border-glass: rgba(255, 255, 255, 0.12);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background: transparent;
+      color: var(--text-main);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Container */
+    #deck-viewport {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      width: 1280px;
+      height: 720px;
+      max-width: 96vw;
+      max-height: 94vh;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-glass-dark);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border-glass);
+      border-radius: 24px;
+      padding: 44px 56px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      position: relative;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.985) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Header */
+    .slide-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 24px;
+      position: relative;
+    }
+
+    .header-left {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.28);
+      padding: 4px 12px;
+      border-radius: 100px;
+      width: fit-content;
+    }
+
+    .slide-title {
+      font-size: 32px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+    }
+
+    .slide-subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .header-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 6px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border-glass);
+    }
+
+    /* Content Area */
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Footer */
+    .slide-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 13px;
+      color: var(--text-dim);
+    }
+
+    .footer-tags {
+      display: flex;
+      gap: 12px;
+    }
+
+    .footer-tag {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; height: 100%; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; height: 100%; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; height: 100%; align-items: stretch; }
+
+    /* Glass Cards */
+    .glass-card {
+      background: var(--bg-glass-card);
+      border: 1px solid var(--border-glass);
+      border-radius: 16px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: all 0.25s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(16, 185, 129, 0.35);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-highlight {
+      border: 1px solid rgba(16, 185, 129, 0.45);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(30, 41, 59, 0.8));
+    }
+
+    /* Typography helpers */
+    .stat-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--primary-light);
+      line-height: 1.1;
+      margin: 8px 0 4px;
+    }
+
+    .stat-unit {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-left: 4px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Comparison Table */
+    .table-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--border-glass);
+    }
+
+    table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: rgba(15, 23, 42, 0.95);
+      color: var(--text-muted);
+      font-weight: 600;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border-glass);
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: #e2e8f0;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr.highlight-row { background: rgba(16, 185, 129, 0.08); font-weight: 600; }
+    tr.highlight-row td { color: #ffffff; border-top: 1px solid rgba(16, 185, 129, 0.3); border-bottom: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .tag-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .badge-win { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .badge-lose { background: rgba(239, 68, 68, 0.15); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .badge-neutral { background: rgba(148, 163, 184, 0.15); color: #cbd5e1; }
+
+    /* Controls Bar */
+    #nav-controls {
+      position: fixed;
+      bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--border-glass);
+      padding: 8px 18px;
+      border-radius: 100px;
+      z-index: 1000;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+
+    .nav-btn:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    #slide-indicator {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      min-width: 60px;
+      text-align: center;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Print optimization for PDF export */
+    @media print {
+      body {
+        overflow: visible !important;
+        height: auto !important;
+        background: transparent !important;
+      }
+      #nav-controls { display: none !important; }
+      #deck-viewport {
+        display: block !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always !important;
+        width: 100% !important;
+        height: 100vh !important;
+        max-width: none !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: rgba(15, 23, 42, 0.95) !important;
+        padding: 40px !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="deck-viewport">
+
+    <!-- SLIDE 1: COVER -->
+    <div class="slide active" id="slide-1">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Market Research Report</span>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body" style="justify-content: center; align-items: flex-start; gap: 24px;">
+        <div style="font-size: 58px; font-weight: 900; line-height: 1.15; letter-spacing: -0.03em;">
+          사진 한 장으로 끝내는<br>
+          <span style="background: linear-gradient(135deg, #34d399, #6366f1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            15초 칼로리 트래커 마켓 리서치
+          </span>
+        </div>
+        <p style="font-size: 20px; color: var(--text-muted); max-width: 820px; line-height: 1.6;">
+          기존 수기 검색 및 그램(g) 환산의 기록 피로(이탈률 82%)를 혁신하고,<br>
+          MyFitnessPal(Cal AI 인수) 및 Welling 대비 독점적 차별화 전략을 제시하는 시장 분석 보고서
+        </p>
+        <div style="display: flex; gap: 16px; margin-top: 16px;">
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Research Sample</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">10건 종합 실증 데이터</div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Target Persona</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">22~35세 직장인 (감량/증량)</div>
+          </div>
+          <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 12px; padding: 12px 20px;">
+            <div style="font-size: 12px; color: var(--text-dim); text-transform: uppercase; font-weight: 700;">Architecture</div>
+            <div style="font-size: 16px; font-weight: 700; color: #fff; margin-top: 2px;">Next.js + Tailwind PWA</div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div class="footer-tags">
+          <span class="footer-tag">Project: CaloMate</span>
+          <span class="footer-tag">Document: #3 마켓리서치.md</span>
+        </div>
+        <div>2026.09.06 | v1.0 | Google NotebookLM & PRD 기반</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: EXECUTIVE SUMMARY (3 CORE QUESTIONS) -->
+    <div class="slide" id="slide-2">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Executive Summary</span>
+          <h2 class="slide-title">3대 핵심 리서치 질문과 시장 발견점</h2>
+          <p class="slide-subtitle">기존 트래커 시장의 구조적 한계와 CaloMate가 포착한 핵심 기회</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="glass-card">
+            <div>
+              <div style="font-size: 32px; margin-bottom: 12px;">📈</div>
+              <div class="card-title">Q1. 시장 규모 & 성장성</div>
+              <div class="stat-number">$2.8B <span class="stat-unit">→ $4.56B</span></div>
+              <p class="card-desc" style="margin-top: 10px;">
+                글로벌 식단·영양 앱 시장은 연 <strong>13.4%</strong> 고성장 중이며, 생성형 AI 칼로리 어시스턴트 부문은 <strong>25.1%</strong>로 초고속 팽창 중입니다.
+              </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border-left: 3px solid var(--primary);">
+              💡 1.8억~2억 명의 활성 트래커 이용자 중 AI 도입 앱 리텐션이 2.3배 높음
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div>
+              <div style="font-size: 32px; margin-bottom: 12px;">⚔️</div>
+              <div class="card-title">Q2. 경쟁 구도 재편</div>
+              <div style="font-size: 20px; font-weight: 800; color: #f59e0b; margin: 16px 0 6px;">
+                MyFitnessPal x Cal AI
+              </div>
+              <p class="card-desc">
+                2026.03 대형 플랫폼의 사진 인식(Meal Scan) 탑재로 "단순 사진 인식"은 범용화되었습니다. 또한 <strong>Welling</strong>이 증량(벌킹) 모드로 급부상했습니다.
+              </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border-left: 3px solid #f59e0b;">
+              💡 한식 최적화, 그램 미노출 사람 언어, 15초 로깅 속도로 차별화 필수
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div>
+              <div style="font-size: 32px; margin-bottom: 12px;">😫</div>
+              <div class="card-title">Q3. 사용자 고통 & 이탈</div>
+              <div class="stat-number" style="color: var(--danger);">82% <span class="stat-unit">3주 내 이탈</span></div>
+              <p class="card-desc" style="margin-top: 10px;">
+                기존 앱 포기 원인 1위는 <strong>"재료별 수기 검색"</strong>과 <strong>"저울 없는 상태에서의 그램(g) 환산 강제"</strong>로 인한 극심한 피로감입니다.
+              </p>
+            </div>
+            <div style="background: rgba(255,255,255,0.04); padding: 10px; border-radius: 8px; font-size: 12px; color: var(--text-muted); border-left: 3px solid var(--danger);">
+              💡 15초 완결 플로우와 "1그릇/1접시" 사람 언어 슬라이더로 해결
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: Grand View Research, Nutrola Benchmark, OpenSurvey 2026</div>
+        <div>Page 02 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: MARKET SIZE & INFOGRAPHIC -->
+    <div class="slide" id="slide-3">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Market Opportunity</span>
+          <h2 class="slide-title">글로벌 및 국내 식단 관리 시장 규모 & 동향</h2>
+          <p class="slide-subtitle">기술 전환기 속에서 폭발적으로 증가하는 AI 헬스케어 수요</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2">
+          <!-- Left: Visual Stats Cards -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="glass-card card-highlight" style="padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; font-weight: 700; color: var(--primary-light);">GLOBAL DIET & NUTRITION APPS</span>
+                <span class="tag-badge badge-win">CAGR 13.4%</span>
+              </div>
+              <div class="stat-number">$2.8B <span class="stat-unit">in 2026</span> → $4.56B <span class="stat-unit">by 2030</span></div>
+              <p class="card-desc">식단 기록 및 칼로리 추적 앱 전 세계 활성 이용자 약 1억 7,500만~2억 명 규모</p>
+            </div>
+
+            <div class="glass-card" style="padding: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; font-weight: 700; color: #a5b4fc;">AI NUTRITION ASSISTANT SECTOR</span>
+                <span class="tag-badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8;">CAGR 25.1%</span>
+              </div>
+              <div class="stat-number" style="color: #a5b4fc;">$222.3M <span class="stat-unit">(2024)</span> → $850M+</div>
+              <p class="card-desc">단순 데이터베이스 조회가 아닌 사진 인식 및 실시간 코칭 어시스턴트 시장의 초고속 성장</p>
+            </div>
+
+            <div class="glass-card" style="padding: 16px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 14px; font-weight: 700; color: #fde047;">KOREA TARGET MARKET</span>
+                <span style="font-size: 13px; color: var(--text-muted);">2030 직장인 식단 헬스케어</span>
+              </div>
+              <div style="font-size: 26px; font-weight: 800; color: #fde047; margin: 6px 0;">약 3,200억 원 규모</div>
+              <p style="font-size: 13px; color: var(--text-muted);">헬시플레저, 저속노화 식단, 벌킹/웨이트 트레이닝 열풍에 따른 폭발적 유입</p>
+            </div>
+          </div>
+
+          <!-- Right: Visual Infographic Chart -->
+          <div class="glass-card" style="padding: 26px; justify-content: flex-start; gap: 18px;">
+            <div class="card-title">📊 4대 시장 성장 드라이버</div>
+            
+            <div style="display: flex; flex-direction: column; gap: 14px; width: 100%;">
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <strong style="font-size: 14px; color: #fff;">1. AI 비전 기술 융합</strong>
+                  <span style="color: var(--primary-light); font-size: 12px; font-weight: 700;">기록 마찰 75% 감소</span>
+                </div>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 88%; height: 100%; background: var(--primary);"></div>
+                </div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <strong style="font-size: 14px; color: #fff;">2. 2030 건강지능(HQ) 및 헬시플레저</strong>
+                  <span style="color: #6366f1; font-size: 12px; font-weight: 700;">직장인 67.4% 식단 관리 시도</span>
+                </div>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 67%; height: 100%; background: #6366f1;"></div>
+                </div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <strong style="font-size: 14px; color: #fff;">3. 벌킹 및 피트니스 증량 수요</strong>
+                  <span style="color: #f59e0b; font-size: 12px; font-weight: 700;">2030 남성 42% 증량 니즈</span>
+                </div>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 42%; height: 100%; background: #f59e0b;"></div>
+                </div>
+              </div>
+
+              <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-glass); border-radius: 12px; padding: 14px;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                  <strong style="font-size: 14px; color: #fff;">4. AI 기반 앱의 리텐션 프리미엄</strong>
+                  <span style="color: #ec4899; font-size: 12px; font-weight: 700;">기존 앱 대비 2.3배 유지율</span>
+                </div>
+                <div style="height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden;">
+                  <div style="width: 76%; height: 100%; background: #ec4899;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: Grand View Research (2026), OpenSurvey Health Trend Report</div>
+        <div>Page 03 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: USER PAIN POINTS & DROP-OFF FUNNEL -->
+    <div class="slide" id="slide-4">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">User Friction Analysis</span>
+          <h2 class="slide-title">기존 앱의 실패 원인: 왜 82%가 3주 안에 포기하는가?</h2>
+          <p class="slide-subtitle">직장인 일상에서 저울과 수기 입력이 유발하는 극심한 마찰 구조</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- 4-Step Funnel -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;">
+            <div class="glass-card" style="border-top: 4px solid #64748b; padding: 18px;">
+              <div style="font-size: 12px; font-weight: 700; color: #94a3b8;">STEP 01</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fff; margin: 6px 0;">식사 시작</div>
+              <p style="font-size: 13px; color: var(--text-muted);">구내식당, 동료와의 외식, 배달음식 섭취</p>
+              <div style="margin-top: 14px; font-size: 12px; color: #38bdf8;">📸 CaloMate: 1초 촬영</div>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #f59e0b; padding: 18px;">
+              <div style="font-size: 12px; font-weight: 700; color: #f59e0b;">STEP 02 (이탈 지점 1)</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fff; margin: 6px 0;">재료별 수기 검색</div>
+              <p style="font-size: 13px; color: var(--text-muted);">반찬 3가지 이상 시 검색 피로 발생 (72% 포기)</p>
+              <div style="margin-top: 14px; font-size: 12px; color: #34d399;">⚡ LLM 다중 객체 자동 인식</div>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #ef4444; padding: 18px;">
+              <div style="font-size: 12px; font-weight: 700; color: #ef4444;">STEP 03 (이탈 지점 2)</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fff; margin: 6px 0;">그램(g) 환산 장벽</div>
+              <p style="font-size: 13px; color: var(--text-muted);">"제육볶음 몇 그램이지?" 저울 부재로 48% 중단</p>
+              <div style="margin-top: 14px; font-size: 12px; color: #34d399;">🥣 "1접시/1그릇" 사람 언어</div>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #dc2626; padding: 18px;">
+              <div style="font-size: 12px; font-weight: 700; color: #dc2626;">STEP 04 (최종 결과)</div>
+              <div style="font-size: 16px; font-weight: 700; color: #fff; margin: 6px 0;">3주 내 앱 삭제</div>
+              <p style="font-size: 13px; color: var(--text-muted);">평균 지속 기간 18.4일 만에 82% 최종 이탈</p>
+              <div style="margin-top: 14px; font-size: 12px; color: #34d399;">⏱️ 15초 완결로 습관화 달성</div>
+            </div>
+          </div>
+
+          <!-- Bottom Summary Comparison -->
+          <div class="glass-card card-highlight" style="padding: 20px; flex-direction: row; justify-content: space-around; align-items: center;">
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: var(--text-muted);">기존 트래커 평균 기록 시간</div>
+              <div style="font-size: 32px; font-weight: 800; color: var(--danger);">110초 ~ 150초</div>
+              <div style="font-size: 12px; color: var(--text-dim);">검색 5회 + 무게 추측 + 확인</div>
+            </div>
+            <div style="font-size: 28px; color: var(--text-dim);">➔</div>
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: var(--primary-light); font-weight: 700;">CaloMate 목표 기록 시간</div>
+              <div style="font-size: 38px; font-weight: 900; color: var(--primary-light);">15초 이내</div>
+              <div style="font-size: 12px; color: var(--primary);">사진 촬영 1회 + 슬라이더 터치 1회</div>
+            </div>
+            <div style="font-size: 28px; color: var(--text-dim);">➔</div>
+            <div style="text-align: center;">
+              <div style="font-size: 13px; color: var(--text-muted);">기록 소요 시간 절감율</div>
+              <div style="font-size: 32px; font-weight: 800; color: #38bdf8;">87% 단축</div>
+              <div style="font-size: 12px; color: #38bdf8;">기록 피로 원천 차단</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>근거: Nutrola Research (11 Apps Tested Side by Side), OpenSurvey 2026</div>
+        <div>Page 04 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: COMPETITIVE POSITIONING MATRIX -->
+    <div class="slide" id="slide-5">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Competitive Matrix</span>
+          <h2 class="slide-title">2026 경쟁 지형도 및 포지셔닝 맵 (2x2 Matrix)</h2>
+          <p class="slide-subtitle">기록 편의성과 목표 지원 다양성을 기준으로 본 CaloMate의 독점적 영역</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-2" style="align-items: center;">
+          <!-- Left: SVG 2x2 Matrix -->
+          <div style="background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-glass); border-radius: 16px; padding: 20px; display: flex; justify-content: center; align-items: center;">
+            <svg width="460" height="380" viewBox="0 0 460 380">
+              <!-- Grid Axes -->
+              <line x1="60" y1="190" x2="430" y2="190" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4" />
+              <line x1="245" y1="30" x2="245" y2="350" stroke="rgba(255,255,255,0.2)" stroke-width="2" stroke-dasharray="4" />
+              
+              <!-- Arrowheads -->
+              <polygon points="435,190 425,185 425,195" fill="rgba(255,255,255,0.4)" />
+              <polygon points="245,25 240,35 250,35" fill="rgba(255,255,255,0.4)" />
+
+              <!-- Axis Labels -->
+              <text x="340" y="215" fill="#94a3b8" font-size="12" font-weight="600">AI 사진 비전 로깅 →</text>
+              <text x="70" y="215" fill="#64748b" font-size="12">← 수기 / 바코드 검색</text>
+              <text x="255" y="45" fill="#94a3b8" font-size="12" font-weight="600">증량(벌킹) 1급 지원 ↑</text>
+              <text x="255" y="340" fill="#64748b" font-size="12">감량 편향 (다이어트 위주) ↓</text>
+
+              <!-- Competitor Bubbles -->
+              <!-- Yazio & Lifesum (Bottom-Left) -->
+              <circle cx="130" cy="270" r="32" fill="rgba(148, 163, 184, 0.15)" stroke="rgba(148, 163, 184, 0.4)" />
+              <text x="130" y="268" fill="#cbd5e1" font-size="11" font-weight="700" text-anchor="middle">Yazio</text>
+              <text x="130" y="282" fill="#94a3b8" font-size="9" text-anchor="middle">Lifesum</text>
+
+              <!-- MyFitnessPal (Middle-Right) -->
+              <circle cx="360" cy="240" r="36" fill="rgba(245, 158, 11, 0.15)" stroke="rgba(245, 158, 11, 0.5)" />
+              <text x="360" y="238" fill="#fcd34d" font-size="12" font-weight="700" text-anchor="middle">MyFitnessPal</text>
+              <text x="360" y="252" fill="#f59e0b" font-size="9" text-anchor="middle">(Meal Scan / Cal AI)</text>
+
+              <!-- Welling (Top-Right High) -->
+              <circle cx="340" cy="95" r="34" fill="rgba(99, 102, 241, 0.2)" stroke="rgba(99, 102, 241, 0.5)" />
+              <text x="340" y="93" fill="#a5b4fc" font-size="12" font-weight="700" text-anchor="middle">Welling</text>
+              <text x="340" y="107" fill="#818cf8" font-size="9" text-anchor="middle">(벌킹 1급 / 글로벌)</text>
+
+              <!-- CaloMate (Top-Right Sweet Spot) -->
+              <circle cx="395" cy="85" r="42" fill="rgba(16, 185, 129, 0.35)" stroke="#34d399" stroke-width="2.5" />
+              <text x="395" y="82" fill="#ffffff" font-size="14" font-weight="800" text-anchor="middle">🥗 CaloMate</text>
+              <text x="395" y="98" fill="#6ee7b7" font-size="10" font-weight="600" text-anchor="middle">한식 + 15초 + 사람언어</text>
+            </svg>
+          </div>
+
+          <!-- Right: Strategic Insights -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="glass-card">
+              <div class="card-title" style="color: #f59e0b;">MyFitnessPal (Meal Scan)의 한계</div>
+              <p class="card-desc">
+                월 $19.99 최고가 등급에만 Meal Scan을 배치하여 대중 접근성이 제한되며, 서양식 중심 DB로 국/찌개/반찬 복합 식단의 오류율이 높습니다.
+              </p>
+            </div>
+
+            <div class="glass-card">
+              <div class="card-title" style="color: #818cf8;">Welling (신흥 강자)의 공백</div>
+              <p class="card-desc">
+                사진 로깅과 벌킹 1급 지원을 결합해 영미권 1위를 달성했으나, 국내 사용자 인터페이스와 한국 음식 문화에 대한 로컬라이제이션이 부재합니다.
+              </p>
+            </div>
+
+            <div class="glass-card card-highlight">
+              <div class="card-title" style="color: var(--primary-light);">CaloMate의 스위트 스팟 (Sweet Spot)</div>
+              <p class="card-desc">
+                <strong>한식 최적화 AI 인식</strong> + <strong>그램 미노출 사람 언어 배식량</strong> + <strong>15초 완결성</strong> + <strong>증량 1급 플로우</strong>를 결합하여 국내 2030 시장을 독점 선점합니다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: 00.통합자료실/참고자료/경쟁사분석_사진인식및증량기능.md</div>
+        <div>Page 05 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 6: COMPETITOR COMPARISON TABLE -->
+    <div class="slide" id="slide-6">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Competitive Matrix</span>
+          <h2 class="slide-title">경쟁사 핵심 스펙 및 성능 상세 비교</h2>
+          <p class="slide-subtitle">기존 전통 앱 및 2026 AI 신흥 경쟁사 대비 CaloMate의 구체적 우위 지점</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>서비스명</th>
+                <th>음식 입력 방식</th>
+                <th>배식량 보정 단위</th>
+                <th>증량(벌킹) 지원</th>
+                <th>한 끼 기록 시간</th>
+                <th>한식/가정식 최적화</th>
+                <th>가격대</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>MyFitnessPal</strong></td>
+                <td>Meal Scan (사진) / 검색</td>
+                <td>그램(g) 환산 종속</td>
+                <td><span class="tag-badge badge-lose">부가 기능</span></td>
+                <td>30~60초</td>
+                <td><span class="tag-badge badge-lose">제한적 (서양식)</span></td>
+                <td>월 $19.99 (고가)</td>
+              </tr>
+              <tr>
+                <td><strong>Welling</strong></td>
+                <td>자연어 채팅 + 사진</td>
+                <td>그램 / 자연어 묘사</td>
+                <td><span class="tag-badge badge-win">1급 벌킹 모드</span></td>
+                <td>20~30초</td>
+                <td><span class="tag-badge badge-lose">미지원 (영어)</span></td>
+                <td>구독제</td>
+              </tr>
+              <tr>
+                <td><strong>Yazio</strong></td>
+                <td>바코드 스캔, 수기 검색</td>
+                <td>그램(g) 단위 강제</td>
+                <td><span class="tag-badge badge-lose">단백질 트래킹 보조</span></td>
+                <td>90~150초</td>
+                <td><span class="tag-badge badge-lose">매우 낮음</span></td>
+                <td>무료 + 프로</td>
+              </tr>
+              <tr>
+                <td><strong>Lifesum</strong></td>
+                <td>바코드 스캔, 수기 검색</td>
+                <td>그램(g) / 컵 단위</td>
+                <td><span class="tag-badge badge-lose">부가 기능</span></td>
+                <td>90~140초</td>
+                <td><span class="tag-badge badge-lose">매우 낮음</span></td>
+                <td>부분 유료</td>
+              </tr>
+              <tr class="highlight-row">
+                <td><strong>🥗 CaloMate</strong></td>
+                <td><span class="tag-badge badge-win">카메라 → LLM 자동추정</span></td>
+                <td><span class="tag-badge badge-win">1그릇/1접시 사람 언어</span></td>
+                <td><span class="tag-badge badge-win">증량 1급 전용 플로우</span></td>
+                <td><span class="tag-badge badge-win">15초 이내 완결</span></td>
+                <td><span class="tag-badge badge-win">한식 특화 프롬프트</span></td>
+                <td>모바일 PWA (무료/합리적)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>업데이트: 2026.08.30 경쟁사 분석 및 2026.09.06 마켓리서치</div>
+        <div>Page 06 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 7: 4 CORE DIFFERENTIATION STRATEGIES -->
+    <div class="slide" id="slide-7">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Core Strategies</span>
+          <h2 class="slide-title">CaloMate의 4대 핵심 차별화 전략</h2>
+          <p class="slide-subtitle">경쟁사가 흉내 낼 수 없는 극강의 마찰 제거와 사용자 친화적 경험</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-4">
+          <div class="glass-card card-highlight">
+            <div style="font-size: 36px; margin-bottom: 8px;">🥘</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px;">01. 한식 복합식단 특화</div>
+            <p class="card-desc">
+              밥, 국, 반찬 3~4가지가 한 컷에 담긴 한국식 상차림을 멀티모달 비전으로 분할 검출하고, 식약처 공공 DB와 연계해 정확도를 80% 이상으로 보장.
+            </p>
+            <div style="margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--primary-light);">
+              ✓ 식약처 2,500종 외식 DB 매핑
+            </div>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <div style="font-size: 36px; margin-bottom: 8px;">🥣</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px;">02. 그램 미노출 사람 언어</div>
+            <p class="card-desc">
+              화면에서 복잡한 그램(g) 숫자를 숨기고, 사용자가 일상에서 직관적으로 인지하는 "1그릇, 1접시, 1인분, 반 공기" 슬라이더로 즉시 보정.
+            </p>
+            <div style="margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--primary-light);">
+              ✓ 저울 없는 100% 직관적 UX
+            </div>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <div style="font-size: 36px; margin-bottom: 8px;">⚡</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px;">03. 15초 이내 기록 완결</div>
+            <p class="card-desc">
+              카메라 촬영 즉시 LLM 추정치 제시 → 1회 터치 보정 → 저장으로 이어지는 3단계 초압축 플로우를 구현해 기존 110초 대비 87% 시간 단축.
+            </p>
+            <div style="margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--primary-light);">
+              ✓ 3초 내 비전 응답 목표
+            </div>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <div style="font-size: 36px; margin-bottom: 8px;">💪</div>
+            <div style="font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 6px;">04. 증량 1급 플로우 전용설계</div>
+            <p class="card-desc">
+              체중 증량(벌킹)을 부가 기능이 아닌 1급 모드로 취급. 잉여 칼로리 섭취를 긍정적으로 축하하고, 근성장 맞춤 근력 운동을 추천.
+            </p>
+            <div style="margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--primary-light);">
+              ✓ 국내 최초 증량 중심 대시보드
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: PRD.md 핵심 차별점 및 착수보고서 전략</div>
+        <div>Page 07 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 8: TARGET PERSONAS -->
+    <div class="slide" id="slide-8">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Target Personas</span>
+          <h2 class="slide-title">핵심 타깃 페르소나 및 사용자 니즈</h2>
+          <p class="slide-subtitle">기록 피로로 중도 포기한 22~35세 직장인을 위한 세그먼트별 솔루션</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="glass-card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="font-size: 32px;">👩‍💼</div>
+              <div>
+                <div style="font-size: 16px; font-weight: 800; color: #fff;">이지은 (28세)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">IT기업 마케터 | 감량 목표</div>
+              </div>
+            </div>
+            <div style="background: rgba(239, 68, 68, 0.1); border-left: 3px solid #ef4444; padding: 10px; border-radius: 6px; font-size: 12px; color: #fca5a5; margin-bottom: 12px;">
+              "점심에 동료들과 김치찌개 먹었는데, 무게를 몰라 검색만 5분 하다가 결국 앱을 지웠어요."
+            </div>
+            <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.6; padding-left: 18px;">
+              <li><strong>니즈:</strong> 10초 만에 사진 찍고 바로 먹기</li>
+              <li><strong>CaloMate 해결:</strong> 뚝배기 사진 인식 + '1인분' 자동 설정</li>
+              <li><strong>효과:</strong> 눈치 보지 않고 외식 중에도 15초 로깅</li>
+            </ul>
+          </div>
+
+          <div class="glass-card card-highlight">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="font-size: 32px;">👨‍💻</div>
+              <div>
+                <div style="font-size: 16px; font-weight: 800; color: #fff;">박민우 (31세)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">핀테크 개발자 | 증량(벌킹) 목표</div>
+              </div>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.1); border-left: 3px solid var(--primary); padding: 10px; border-radius: 6px; font-size: 12px; color: #6ee7b7; margin-bottom: 12px;">
+              "마른 체형 탈출하려고 많이 먹는데, 기존 앱은 칼로리 넘기면 빨간색 경고만 떠서 불쾌해요."
+            </div>
+            <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.6; padding-left: 18px;">
+              <li><strong>니즈:</strong> 칼로리 잉여(Surplus) 및 단백질 전용 뷰</li>
+              <li><strong>CaloMate 해결:</strong> 증량 모드 지원 + 근력 운동 연계</li>
+              <li><strong>효과:</strong> 건강한 체중 증량 달성 및 동기부여</li>
+            </ul>
+          </div>
+
+          <div class="glass-card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <div style="font-size: 32px;">🧘‍♂️</div>
+              <div>
+                <div style="font-size: 16px; font-weight: 800; color: #fff;">최현석 (34세)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">대기업 영업직 | 건강 유지</div>
+              </div>
+            </div>
+            <div style="background: rgba(99, 102, 241, 0.1); border-left: 3px solid #6366f1; padding: 10px; border-radius: 6px; font-size: 12px; color: #c7d2fe; margin-bottom: 12px;">
+              "회식이 잦아 과식하기 쉬운데, 오늘 먹은 만큼 무슨 운동을 해야 할지 감이 안 잡힙니다."
+            </div>
+            <ul style="font-size: 13px; color: var(--text-muted); line-height: 1.6; padding-left: 18px;">
+              <li><strong>니즈:</strong> 섭취량 기반 당일 맞춤 운동 추천</li>
+              <li><strong>CaloMate 해결:</strong> 섭취/소모 밸런스 기반 일일 운동 제안</li>
+              <li><strong>효과:</strong> 저속노화 및 지속 가능한 라이프스타일 유지</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>타깃 분석: 2030 직장인 라이프스타일 및 식단 패턴 조사</div>
+        <div>Page 08 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 9: RISKS & MITIGATION -->
+    <div class="slide" id="slide-9">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Risk Management</span>
+          <h2 class="slide-title">리스크 요인 및 체계적 대응 전략</h2>
+          <p class="slide-subtitle">AI 오인식, 대형 플랫폼 경쟁, 규제 및 프라이버시 리스크의 선제적 관리</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div class="grid-3">
+          <div class="glass-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">⚠️</div>
+            <div class="card-title" style="color: var(--danger);">리스크 1. AI 오인식 오차</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              카메라 각도, 조명, 소스 등에 따른 음식 및 중량 추정 오차 발생 가능성
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 13px; color: var(--text-muted);">
+              <strong>🛡️ 대응책:</strong><br>
+              • 상위 1개 후보 정답률 80% 이상 확보<br>
+              • 후보군 1탭 교체 & 사람 언어 슬라이더 보정<br>
+              • 알레르기 미감지 경고 및 의료 면책 상시 고지
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">🏢</div>
+            <div class="card-title" style="color: #f59e0b;">리스크 2. 대형사 기능 모방</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              MyFitnessPal 등 대기업의 로컬 식단 비전 기능 추가 및 마케팅 공세
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 13px; color: var(--text-muted);">
+              <strong>🛡️ 대응책:</strong><br>
+              • 고가 유료 구독($19.99) 대비 PWA 무료/합리적 접근성<br>
+              • 그램 미노출 UX와 15초 완결성으로 속도 우위<br>
+              • 국내 커뮤니티 및 맞춤 운동 연동 락인(Lock-in)
+            </div>
+          </div>
+
+          <div class="glass-card">
+            <div style="font-size: 28px; margin-bottom: 8px;">🔒</div>
+            <div class="card-title" style="color: #38bdf8;">리스크 3. 프라이버시 규제</div>
+            <p class="card-desc" style="margin-bottom: 12px;">
+              민감 건강 정보(체중, 사진) 처리 및 생성형 AI 클라우드 전송 규제
+            </p>
+            <div style="background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; font-size: 13px; color: var(--text-muted);">
+              <strong>🛡️ 대응책:</strong><br>
+              • 식사 이미지 전송 시 개인 식별 정보 자동 마스킹<br>
+              • LLM 벤더 계약 시 데이터 학습 배제 보장<br>
+              • 탈퇴 시 데이터 영구 파기(망각될 권리) 보장
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>출처: chinh-sach-calomate.md 및 개인정보보호위원회 AI 가이드라인</div>
+        <div>Page 09 / 10</div>
+      </div>
+    </div>
+
+    <!-- SLIDE 10: ROADMAP & NEXT STEPS -->
+    <div class="slide" id="slide-10">
+      <div class="slide-header">
+        <div class="header-left">
+          <span class="category-badge">Roadmap</span>
+          <h2 class="slide-title">향후 로드맵 및 후속 산출물 추진 계획</h2>
+          <p class="slide-subtitle">마켓리서치 완료에 따른 서비스기획서(#4) 및 PWA MVP 개발 가속화</p>
+        </div>
+        <div class="header-logo">🥗 CaloMate</div>
+      </div>
+      <div class="slide-body">
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+          <!-- 4-Phase Timeline Bar -->
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+            <div class="glass-card" style="border-top: 4px solid var(--primary); padding: 18px;">
+              <span class="tag-badge badge-win" style="margin-bottom: 8px;">COMPLETED</span>
+              <div style="font-size: 16px; font-weight: 700; color: #fff;">Phase 0: 프로젝트 초기화</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+                PRD.md 개요 작성 완료, NotebookLM 연동 및 통합자료실 셋업 완료
+              </p>
+            </div>
+
+            <div class="glass-card card-highlight" style="border-top: 4px solid var(--primary-light); padding: 18px;">
+              <span class="tag-badge badge-win" style="margin-bottom: 8px;">CURRENT (W3)</span>
+              <div style="font-size: 16px; font-weight: 700; color: #fff;">Phase 1: 기획 착수</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+                착수보고서 완료, <strong>마켓리서치(#3) 완료</strong>, 경쟁 구도 및 차별화 재정의
+              </p>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #6366f1; padding: 18px;">
+              <span class="tag-badge" style="background: rgba(99, 102, 241, 0.2); color: #818cf8; margin-bottom: 8px;">NEXT STEP</span>
+              <div style="font-size: 16px; font-weight: 700; color: #fff;">Phase 2: 상세 기획</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+                서비스기획서(#4), 요구사항정의서(#5), 기능명세서(#6), 화면설계서(#9)
+              </p>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid #94a3b8; padding: 18px;">
+              <span class="tag-badge badge-neutral" style="margin-bottom: 8px;">PLANNED</span>
+              <div style="font-size: 16px; font-weight: 700; color: #fff;">Phase 3: MVP 구현</div>
+              <p style="font-size: 13px; color: var(--text-muted); margin-top: 6px;">
+                Next.js PWA 프론트엔드 + LLM 비전 API 연동 15초 로깅 프로토타입 릴리즈
+              </p>
+            </div>
+          </div>
+
+          <!-- Final Takeaway Box -->
+          <div class="glass-card" style="padding: 22px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(16, 185, 129, 0.15)); border: 1px solid rgba(16, 185, 129, 0.3);">
+            <div style="font-size: 18px; font-weight: 800; color: #ffffff; margin-bottom: 6px;">
+              🎯 마켓 리서치 결론: "사진 인식 유무"가 아니라 "누가 더 간편하고 친근한가"의 싸움
+            </div>
+            <p style="font-size: 14px; color: #cbd5e1; line-height: 1.6;">
+              MyFitnessPal의 Cal AI 인수와 Welling의 부상은 칼로리 트래커 시장이 '간편 로깅'과 '벌킹'으로 완전히 진화했음을 증명합니다. CaloMate는 <strong>한식 특화 인식</strong>, <strong>화면에서 그램을 숨긴 100% 사람 언어 슬라이더</strong>, 그리고 <strong>한 끼 15초 완결 속도</strong>를 통해 국내 2030 직장인 식단 관리의 새로운 기준을 제시할 것입니다.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <div>CaloMate Project | AP-Framework V0.43 Document Chain</div>
+        <div>Page 10 / 10 (End of Deck)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive Controls Bar -->
+  <div id="nav-controls">
+    <button class="nav-btn" id="prev-btn" title="이전 슬라이드 (←)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div id="slide-indicator">1 / 10</div>
+    <button class="nav-btn" id="next-btn" title="다음 슬라이드 (→ / Space)">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div style="width: 1px; height: 18px; background: rgba(255,255,255,0.2); margin: 0 4px;"></div>
+    <button class="nav-btn" id="print-btn" title="PDF 인쇄 / 내보내기 (Ctrl+P)">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+    </button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    const totalSlides = slides.length;
+
+    const indicator = document.getElementById('slide-indicator');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const printBtn = document.getElementById('print-btn');
+
+    function showSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+
+      currentSlide = index;
+      indicator.textContent = `${currentSlide + 1} / ${totalSlides}`;
+    }
+
+    prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+    nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+    printBtn.addEventListener('click', () => window.print());
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        showSlide(currentSlide + 1);
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        showSlide(currentSlide - 1);
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        showSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        showSlide(totalSlides - 1);
+      } else if (e.key === 'p' && (e.metaKey || e.ctrlKey)) {
+        window.print();
+      }
+    });
+
+    showSlide(0);
+  </script>
+</body>
+</html>
